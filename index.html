@@ -1,0 +1,32 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Aplicación</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bienvenido a Mi Aplicación</h1>
+    <p>Redireccionando...</p>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="js/js.cookie.js"></script>
+  <script>
+    // Verificar si existe una cookie de token
+    const token = Cookies.get('token');
+
+    if (!token) {
+      // Si no hay token, redirigir al formulario de inicio de sesión
+      window.location.href = 'login.html';
+    } else {
+      // Si hay token, redirigir a la página de inicio
+      window.location.href = 'home.html';
+    }
+  </script>
+</body>
+</html>

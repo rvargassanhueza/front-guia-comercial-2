@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('loginForm');
+  const loginMessage = document.getElementById('loginMessage');
+  const errorMessage = document.getElementById('errorMessage');
 
   loginForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -19,15 +21,17 @@ document.addEventListener('DOMContentLoaded', () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
-          console.error(data.error);
           // Mostrar mensaje de error en el formulario de inicio de sesión
+          loginMessage.style.display = 'none';
+          errorMessage.textContent = 'El nombre de usuario o contraseña no son válidos.';
+          errorMessage.style.display = 'block';
         } else {
           console.log(data.token);
           // Almacenar el token en una cookie
           Cookies.set('token', data.token, { expires: 1, path: '/' });
 
           // Redirigir a la página de inicio o mostrar mensaje de éxito
-          window.location.href = 'home.html';
+          window.location.href = './home.html';
         }
       })
       .catch((error) => {

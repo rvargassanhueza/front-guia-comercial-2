@@ -1,0 +1,16 @@
+  .navbar {
+    background-color: #f8f9fa;
+  }
+
+  .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .header-bar i {
+    font-size: 1.5rem; /* Tamaño del icono */
+    margin-right: 8px; /* Espacio entre el icono y el texto del nombre de usuario */
+    vertical-align: middle; /* Alineación vertical para centrar el icono */
+    color: white; /* Color del icono */
+  }
+  

@@ -1,4 +1,5 @@
 let idTipoUsuario;
+let idUsuario;
 const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
 
         insertarUsuarioForm.addEventListener('submit', function (event) {
@@ -39,8 +40,7 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
                     const option = document.createElement('li');
                     const anchor = document.createElement('a');
                     anchor.classList.add('dropdown-item');
-                    // anchor.href = '#'; // Opcional: Puedes agregar una URL específica según el rol
-                    anchor.textContent = tipoUsuario.nombre_tipo_usuario; // Opcional: Asigna el nombre del rol, si lo tienes en la respuesta de la API
+                    anchor.textContent = tipoUsuario.nombre_tipo_usuario;
                     anchor.id = tipoUsuario.id_tipo_usuario;
                     idTipoUsuario = anchor.id;
                     // Agregar evento clic para actualizar el texto del botón cuando se seleccione una opción
@@ -69,8 +69,7 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
             })
             .then(response => response.json())
             .then(data => {
-                // Aquí puedes manejar la respuesta de la API después de guardar el usuario
-
+        
                 if(data.code === 1){
                     const alertDiv = document.createElement('div');
                     alertDiv.className = 'alert alert-danger mt-3';
@@ -89,12 +88,13 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
                     alertDiv.textContent = '¡Usuario registrado correctamente!';
                     document.getElementById('insertarUsuarioForm').appendChild(alertDiv);
 
-                    // Llamar a la función para cargar los usuarios nuevamente
+                     // Cierra la alerta después de 2 segundos
+                  setTimeout(function () {
+                    alertDiv.remove(); // Elimina la alerta del DOM
+                    //cargar la lista de usuarios para mostrar los cambios en la tabla
                     cargarUsuarios();
                     limpiarText();
-                    // loadRoles()
-                    // document.getElementById('btnTipoUsuario').textContent;
-                    // limpiarDropdown();
+                    }, 2000);
                 }
             
             })
@@ -107,9 +107,17 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
                     alertDiv.textContent = '¡Error al guardar el usuario!';
                     document.getElementById('insertarUsuarioForm').appendChild(alertDiv);
 
+                       // Cierra la alerta después de 2 segundos
+                  setTimeout(function () {
+                    alertDiv.remove(); // Elimina la alerta del DOM
+                    //cargar la lista de usuarios para mostrar los cambios en la tabla
+                    cargarUsuarios();
                     limpiarText();
+                    }, 2000);
+
+                    // limpiarText();
                     // document.getElementById('btnTipoUsuario').textContent;
-                    limpiarDropdown();
+                    // limpiarDropdown();
             });
             
         }
@@ -157,7 +165,7 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
                 const eliminarButton = document.createElement('button');
                 eliminarButton.className = 'btn btn-danger btn-sm';
                 eliminarButton.innerHTML = '<i class="bi bi-trash"></i>';
-                eliminarButton.onclick = () => eliminarUsuario(usuario.id);
+                eliminarButton.onclick = () => eliminarUsuario(usuario.id_usuario);
                 accionesCell.appendChild(eliminarButton);
                 });
             })
@@ -174,82 +182,164 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
               .then(response => response.json())
               .then(data => {
                 // Llenar los campos del formulario con los datos del usuario
-                document.getElementById('idEditar').value = data[0].id_usuario;
-                document.getElementById('nombreEditar').value = data[0].nombre_usuario;
-                document.getElementById('apellidoEditar').value = data[0].apellido_usuario;
-                document.getElementById('emailEditar').value = data[0].email_usuario;
-                document.getElementById('descripcionEditar').value = data[0].descripcion_usuario;
-                document.getElementById('btnTipoUsuarioEditar').textContent = data[0].nombre_tipo_usuario;
-                idTipoUsuario = data[0].id_tipo_usuario;
+                document.getElementById('idEditar').value = data.id_usuario;
+                document.getElementById('nombreEditar').value = data.nombre_usuario;
+                document.getElementById('apellidoEditar').value = data.apellido_usuario;
+                document.getElementById('emailEditar').value = data.email_usuario;
+                document.getElementById('descripcionEditar').value = data.descripcion_usuario;
+                document.getElementById('btnTipoUsuarioEditar').textContent = data.nombre_tipo_usuario;
+                idTipoUsuario = data.id_tipo_usuario;
           
                 // Abrir el modal
-                const modalEditar = new bootstrap.Modal(document.getElementById('modalEditarUsuario'));
+                const modalEditar = new bootstrap.Modal(document.getElementById('editarModal'));
                 modalEditar.show();
               })
               .catch(error => {
                 console.error('Error al obtener los datos del usuario:', error);
               });
-          }
+        }
 
-          // Función para guardar los cambios realizados en el modal
-function guardarCambios() {
-    const id = document.getElementById('idEditar').value;
-    const nombre = document.getElementById('nombreEditar').value;
-    const apellido = document.getElementById('apellidoEditar').value;
-    const email = document.getElementById('emailEditar').value;
-    const descripcion = document.getElementById('descripcionEditar').value;
-    const tipoUsuario = document.getElementById('tipoUsuarioEditar').value;
-    // ... Obtén los demás datos que desees modificar
-  
-    // Crear el objeto de datos para enviar a la API
-    const datosActualizados = {
-      nombre_usuario: nombre,
-      apellido_usuario: apellido,
-      descripcion_usuario: descripcion,
-      tipoUsuario: tipoUsuario,
-      id_tipo_usuario: idTipoUsuario,
-      email_usuario: email,
-    };
-  
-    // Realizar la solicitud a la API para guardar los cambios
-    const url = `http://localhost:3003/usuario/${id}`;
-  
-    fetch(url, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(datosActualizados),
-    })
-      .then(response => response.json())
-      .then(data => {
-        // Aquí puedes manejar la respuesta de la API después de guardar los cambios
-  
-        const alertDiv = document.createElement('div');
-        alertDiv.className = 'alert alert-primary mt-3';
-        alertDiv.role = 'alert';
-        alertDiv.textContent = '¡Usuario modificado correctamente!';
-        document.getElementById('insertarUsuarioForm').appendChild(alertDiv);
-  
-        // Cierra el modal después de guardar los cambios
-        const editarModal = new bootstrap.Modal(document.getElementById('editarModal'));
-        editarModal.hide();
-  
-        // Vuelve a cargar la lista de usuarios para mostrar los cambios en la tabla
-        cargarUsuarios();
-      })
-      .catch(error => {
-        console.error('Error al guardar los cambios:', error);
-        // Aquí puedes mostrar un mensaje de error o realizar alguna otra acción
-  
-        const alertDiv = document.createElement('div');
-        alertDiv.className = 'alert alert-danger mt-3';
-        alertDiv.role = 'alert';
-        alertDiv.textContent = '¡Error al modificar el usuario!';
-        document.getElementById('insertarUsuarioForm').appendChild(alertDiv);
-      });
-  }
+        function guardarCambios() {
+            const id = document.getElementById('idEditar').value;
+            const nombre = document.getElementById('nombreEditar').value;
+            const apellido = document.getElementById('apellidoEditar').value;
+            const email = document.getElementById('emailEditar').value;
+            const descripcion = document.getElementById('descripcionEditar').value;
+            const tipoUsuario = document.getElementById('tipoUsuarioEditar').value;
+            // ... Obtén los demás datos que desees modificar
           
+            // Crear el objeto de datos para enviar a la API
+            const datosActualizados = {
+              id_usuario: id,
+              nombre_usuario: nombre,
+              apellido_usuario: apellido,
+              descripcion_usuario: descripcion,
+              tipoUsuario: tipoUsuario,
+              id_tipo_usuario: idTipoUsuario,
+              email_usuario: email,
+            };
+          
+            // Realizar la solicitud a la API para guardar los cambios
+            const url = `http://localhost:3003/usuario/${id}`;
+          
+            fetch(url, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(datosActualizados),
+            })
+              .then(response => response.json())
+              .then(data => {
 
+                const myModalEl = document.querySelector('#editarModal');
+                const modal = bootstrap.Modal.getOrCreateInstance(myModalEl); // Returns a Bootstrap modal instance
+
+                // Crea la alerta para mostrar el mensaje de éxito
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-primary mt-3';
+                alertDiv.role = 'alert';
+                alertDiv.textContent = '¡Usuario modificado correctamente!';
+
+                // Agrega la alerta al contenedor del modal
+                const modalBody = document.querySelector('#editarModal .modal-body');
+                modalBody.appendChild(alertDiv);
+
+                // Cierra el modal después de 2 segundos
+                setTimeout(function () {
+                modal.hide(); // Cierra el modal
+                alertDiv.remove(); // Elimina la alerta del DOM
+
+                // Vuelve a cargar la lista de usuarios para mostrar los cambios en la tabla
+                cargarUsuarios();
+                }, 2000);
+              })
+              .catch(error => {
+                console.error('Error al guardar los cambios:', error);
+                // Aquí puedes mostrar un mensaje de error o realizar alguna otra acción
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-danger mt-3';
+                alertDiv.role = 'alert';
+                alertDiv.textContent = '¡Error al modificar el usuario!';
+                document.getElementById('insertarUsuarioForm').appendChild(alertDiv);
+              });
+        }
+
+        function eliminarUsuario(id) {
+            // Realizar la solicitud a la API para obtener los datos del usuario
+
+            const idUsuario_ = document.getElementById('idEliminar').value;
+            const url = `http://localhost:3003/usuario/${id}`;
+            
+            fetch(url)
+              .then(response => response.json())
+              .then(data => {
+                // Llenar los campos del formulario con los datos del usuario
+                document.getElementById('idEliminar').value = data.id_usuario;
+                document.getElementById('nombreEliminar').value = data.nombre_usuario;
+                document.getElementById('apellidoEliminar').value = data.apellido_usuario;
+                document.getElementById('emailEliminar').value = data.email_usuario;
+                document.getElementById('descripcionEliminar').value = data.descripcion_usuario;
+                document.getElementById('tipoUsuarioEliminar').value = data.nombre_tipo_usuario;
+                idUsuario = id;
+          
+                // Abrir el modal
+                const modalEliminar = new bootstrap.Modal(document.getElementById('eliminarModal'));
+                modalEliminar.show();
+              })
+              .catch(error => {
+                console.error('Error al obtener los datos del usuario:', error);
+              });
+        }
+
+        function guardarCambiosEliminar() {
+
+              // Realizar la solicitud a la API para guardar los cambios
+              const url = `http://localhost:3003/usuario/${idUsuario}`;
+          
+              fetch(url, {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body:null,
+              })
+                .then(response => response.json())
+                .then(data => {
+  
+                  const myModalEl = document.querySelector('#eliminarModal');
+                  const modal = bootstrap.Modal.getOrCreateInstance(myModalEl); // Returns a Bootstrap modal instance
+  
+                  // Crea la alerta para mostrar el mensaje de éxito
+                  const alertDiv = document.createElement('div');
+                  alertDiv.className = 'alert alert-primary mt-3';
+                  alertDiv.role = 'alert';
+                  alertDiv.textContent = '¡Usuario eliminado correctamente!';
+  
+                  // Agrega la alerta al contenedor del modal
+                  const modalBody = document.querySelector('#eliminarModal .modal-body');
+                  modalBody.appendChild(alertDiv);
+  
+                  // Cierra el modal después de 2 segundos
+                  setTimeout(function () {
+                  modal.hide(); // Cierra el modal
+                  alertDiv.remove(); // Elimina la alerta del DOM
+  
+                  // Vuelve a cargar la lista de usuarios para mostrar los cambios en la tabla
+                  cargarUsuarios();
+                  }, 2000);
+                })
+                .catch(error => {
+                  console.error('Error al guardar los cambios:', error);
+                  // Aquí puedes mostrar un mensaje de error o realizar alguna otra acción
+                  const alertDiv = document.createElement('div');
+                  alertDiv.className = 'alert alert-danger mt-3';
+                  alertDiv.role = 'alert';
+                  alertDiv.textContent = '¡Error al eliminar el usuario!';
+                  document.getElementById('insertarUsuarioForm').appendChild(alertDiv);
+                });
+        }
+
+                   
   document.addEventListener("DOMContentLoaded", loadRoles);
   document.addEventListener('DOMContentLoaded', cargarUsuarios);

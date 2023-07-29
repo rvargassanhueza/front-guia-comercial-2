@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- Encabezado común de la página -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mantenedor de Localidades</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link href="/src/css/style-mantenedor-usuarios.css" rel="stylesheet">
+  <link href="/src/css/style-navBar.css" rel="stylesheet">
+
+</head>
+<body>
+  <!-- Contenido específico de la página -->
+  <div class="container">
+    <header>
+      <!-- Contenido del header común -->
+      <div id="navBarContent"></div>
+    </header>
+
+    <h1 class="mt-5">Listado de Localidades</h1>
+        <h3 class="mt-5">Buscar Localidad</h3>
+        <div class="mb-3">
+            <label for="rol">Región:</label>
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="btnRegion" required>
+                  Seleccionar Región
+                </button>
+                <ul class="dropdown-menu" id="dropRegion">
+                </ul>
+              </div>
+          </div>
+          <div class="mb-3">
+            <label for="rol">Provincia:</label>
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="btnProvincia" required>
+                  Seleccionar Provincia
+                </button>
+                <ul class="dropdown-menu" id="dropProvincia">
+                </ul>
+              </div>
+          </div>
+          <div class="mb-3">
+            <label for="rol">Comuna:</label>
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="btnComuna" required>
+                  Seleccionar Comuna
+                </button>
+                <ul class="dropdown-menu" id="dropComuna">
+                </ul>
+              </div>
+          </div>
+<div class="row mt-3">
+  <div class="col">
+    <table class="table table-striped" id="tablaLocalidad">
+      <thead>
+        <tr>
+          <th>Id Localidad</th>
+          <th>Nombre de Localidad</th>
+          <th>Región</th>
+          <th>Provincia</th>
+          <th>Comuna</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+    <div class="row mt-5">
+      <div class="col">
+        <!-- Columna 1: Insertar Localidad -->
+        <h3 class="text-center">Insertar Localidad</h3>
+        <div class="row">
+          <div class="col">
+            <form id="insertarLocalidadForm">  
+              <div class="mb-3">
+                <label for="rol">Región:</label>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="btnRegion" required>
+                      Seleccionar Región
+                    </button>
+                    <ul class="dropdown-menu" id="dropRegion">
+                    </ul>
+                  </div>
+              </div>
+              <div class="mb-3">
+                <label for="rol">Provincia:</label>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="btnProvincia" required>
+                      Seleccionar Provincia
+                    </button>
+                    <ul class="dropdown-menu" id="dropProvincia">
+                    </ul>
+                  </div>
+              </div>
+              <div class="mb-3">
+                <label for="rol">Comuna:</label>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="btnComuna" required>
+                      Seleccionar Comuna
+                    </button>
+                    <ul class="dropdown-menu" id="dropComuna">
+                    </ul>
+                  </div>
+              </div>
+              <div class="mb-3">
+                <label for="localidad">Nombre Localidad:</label>
+                <input type="text" class="form-control" id="localidad" required>
+              </div> 
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Elemento div para el contenido del footer común -->
+  <div id="footerContent"></div>
+
+  <!-- Modal para editar Localidad -->
+<div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="modalEditarUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarLocalidadLabel">Editar Localidad</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editarLocalidadForm">
+            <div class="mb-3">
+              <label for="idEditar">ID Localidad:</label>
+              <input type="text" class="form-control" id="idEditar" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="regionEditar">Región:</label>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="btnRegionEditar">
+                    Seleccionar Región
+                  </button>
+                  <ul class="dropdown-menu" id="regionEditar">
+                  </ul>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="provinciaEditar">Provincia:</label>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="btnProvinciaEditar">
+                    Seleccionar Provincia
+                  </button>
+                  <ul class="dropdown-menu" id="provinciaEditar">
+                  </ul>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="comunaEditar">Comuna:</label>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="btnComunaEditar">
+                    Seleccionar Región
+                  </button>
+                  <ul class="dropdown-menu" id="comunaEditar">
+                  </ul>
+                </div>
+              </div>
+            <div class="mb-3">
+                <label for="localidadEditar">Localidad:</label>
+                <input type="email" class="form-control" id="localidadEditar" disabled>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Modal para eliminar localidad -->
+<div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="modalEliminarUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEliminarLocalidadLabel">Eliminar Localidad</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form id="editarLocalidadForm">
+              <div class="mb-3">
+                <label for="idEliminar">ID Localidad:</label>
+                <input type="text" class="form-control" id="idEliminar" disabled>
+              </div>
+              <div class="mb-3">
+                <label for="email">Localidad:</label>
+                <input type="email" class="form-control" id="emailEditar" disabled>
+            </div>
+              <div class="mb-3">
+                  <label for="regionEliminar">Región:</label>
+                    <input type="text" class="form-control" id="regionEliminar" disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="provinciaEliminar">Provincia:</label>
+                      <input type="text" class="form-control" id="provinciaEliminar" disabled>
+                  </div>
+                <div class="mb-3">
+                    <label for="comunaEliminar">Comuna:</label>
+                      <input type="text" class="form-control" id="comunaEliminar" disabled>
+                  </div>
+            </form>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" onclick="guardarCambiosEliminar()">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts al final del cuerpo -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" ></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+
+  <script src="/src/js/elementos-comun.js?v1"></script>
+  <script src="/src/js/js.cookie.js?v1"></script>
+  <script src="/src/js/helpers/validaToken.js?v1"></script>
+  <script src="/src/js/logout.js?v1"></script>
+  <script src="/src/js/mantenedor-localidad.js?v1"></script>
+
+</body>
+</html>

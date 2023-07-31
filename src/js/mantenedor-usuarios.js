@@ -7,12 +7,17 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
 
             // Obtener los valores del formulario
 
-            const nombre = document.getElementById('nombre').value;
-            const apellido = document.getElementById('apellido').value;
-            const email = document.getElementById('email').value;
-            const contrasena = document.getElementById('contrasena').value;
-            const descripcion = document.getElementById('descripcion').value;
-            const tipoUsuario = document.getElementById('btnTipoUsuario').textContent; // Obtener el texto del botón
+            let nombre = document.getElementById('nombre').value;
+            let apellido = document.getElementById('apellido').value;
+            let email = document.getElementById('email').value;
+            let contrasena = document.getElementById('contrasena').value;
+            let descripcion = document.getElementById('descripcion').value;
+            let tipoUsuario = document.getElementById('btnTipoUsuario').textContent; // Obtener el texto del botón
+
+            nombre = nombre.toLowerCase();
+            apellido = apellido.toLowerCase();
+            email = email.toLowerCase();
+            descripcion = descripcion.toLowerCase();
 
         // Crear el objeto de datos para enviar a la API
             const nuevoUsuario = {
@@ -149,8 +154,8 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
                 const row = tbody.insertRow();
         
                 row.insertCell().textContent = usuario.id_usuario;
-                row.insertCell().textContent = usuario.nombre_usuario;
-                row.insertCell().textContent = usuario.apellido_usuario;
+                row.insertCell().textContent = capitalize(usuario.nombre_usuario);
+                row.insertCell().textContent = capitalize(usuario.apellido_usuario);
                 row.insertCell().textContent = usuario.email_usuario;
                 row.insertCell().textContent = usuario.descripcion_usuario;
                 row.insertCell().textContent = usuario.nombre_tipo_usuario;
@@ -183,10 +188,10 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
               .then(data => {
                 // Llenar los campos del formulario con los datos del usuario
                 document.getElementById('idEditar').value = data.id_usuario;
-                document.getElementById('nombreEditar').value = data.nombre_usuario;
-                document.getElementById('apellidoEditar').value = data.apellido_usuario;
+                document.getElementById('nombreEditar').value = capitalize(data.nombre_usuario);
+                document.getElementById('apellidoEditar').value = capitalize(data.apellido_usuario);
                 document.getElementById('emailEditar').value = data.email_usuario;
-                document.getElementById('descripcionEditar').value = data.descripcion_usuario;
+                document.getElementById('descripcionEditar').value = capitalize(data.descripcion_usuario);
                 document.getElementById('btnTipoUsuarioEditar').textContent = data.nombre_tipo_usuario;
                 idTipoUsuario = data.id_tipo_usuario;
           
@@ -276,10 +281,10 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
               .then(data => {
                 // Llenar los campos del formulario con los datos del usuario
                 document.getElementById('idEliminar').value = data.id_usuario;
-                document.getElementById('nombreEliminar').value = data.nombre_usuario;
-                document.getElementById('apellidoEliminar').value = data.apellido_usuario;
+                document.getElementById('nombreEliminar').value = capitalize(data.nombre_usuario);
+                document.getElementById('apellidoEliminar').value = capitalize(data.apellido_usuario);
                 document.getElementById('emailEliminar').value = data.email_usuario;
-                document.getElementById('descripcionEliminar').value = data.descripcion_usuario;
+                document.getElementById('descripcionEliminar').value = capitalize(data.descripcion_usuario);
                 document.getElementById('tipoUsuarioEliminar').value = data.nombre_tipo_usuario;
                 idUsuario = id;
           

@@ -2,39 +2,9 @@ let idTipoUsuario;
 let idUsuario;
 const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
 
-        insertarUsuarioForm.addEventListener('submit', function (event) {
-            event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
+      
 
-            // Obtener los valores del formulario
-
-            let nombre = document.getElementById('nombre').value;
-            let apellido = document.getElementById('apellido').value;
-            let email = document.getElementById('email').value;
-            let contrasena = document.getElementById('contrasena').value;
-            let descripcion = document.getElementById('descripcion').value;
-            let tipoUsuario = document.getElementById('btnTipoUsuario').textContent; // Obtener el texto del botón
-
-            nombre = nombre.toLowerCase();
-            apellido = apellido.toLowerCase();
-            email = email.toLowerCase();
-            descripcion = descripcion.toLowerCase();
-
-        // Crear el objeto de datos para enviar a la API
-            const nuevoUsuario = {
-                nombre_usuario:nombre,
-                apellido_usuario:apellido,
-                email_usuario:email,
-                pass_usuario:contrasena,
-                descripcion_usuario:descripcion,
-                tipoUsuario: tipoUsuario,
-                id_tipo_usuario: idTipoUsuario
-            };
-
-            // Llamar a la función para guardar el usuario en la API
-            guardarUsuario(nuevoUsuario);
-        });
-
-        function loadRoles() {
+    function loadRoles() {
             const url = 'http://localhost:3003/tipo-usuario/'; // URL de la API para obtener los roles
             fetch(url)
             .then(response => response.json())
@@ -60,8 +30,10 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
             .catch(error => {
                 console.error('Error al cargar los roles desde la API:', error);
             });
-        }
-        function guardarUsuario(usuario) {
+    
+    }
+
+    function guardarUsuario(usuario) {
             // Realizar la solicitud a la API para guardar el usuario
             const url = 'http://localhost:3003/usuario'; // URL de la API para guardar el usuario
         
@@ -125,24 +97,24 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
                     // limpiarDropdown();
             });
             
-        }
+    }
   
-        function limpiarDropdown() {
+    function limpiarDropdown() {
             const dropdownItems = document.querySelectorAll('.dropdown-menu li');
             dropdownItems.forEach((item) => {
             item.remove();
             });
-        }
+    }
 
-        function limpiarText(){
+    function limpiarText(){
             document.getElementById('nombre').value = '';
             document.getElementById('apellido').value = '';
             document.getElementById('email').value = '';
             document.getElementById('contrasena').value = '';
             document.getElementById('descripcion').value = '';
-        }
+    }
 
-        function cargarUsuarios() {
+    function cargarUsuarios() {
             const tablaUsuarios = document.getElementById('tablaUsuarios');
             const tbody = tablaUsuarios.getElementsByTagName('tbody')[0];
             tbody.innerHTML = ''; // Limpiar el contenido del tbody antes de agregar los usuarios
@@ -177,9 +149,9 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
             .catch(error => {
                 console.error('Error al obtener el listado de usuarios:', error);
             });
-        }
+    }
 
-        function editarUsuario(id) {
+    function editarUsuario(id) {
             // Realizar la solicitud a la API para obtener los datos del usuario
             const url = `http://localhost:3003/usuario/${id}`;
             
@@ -202,9 +174,9 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
               .catch(error => {
                 console.error('Error al obtener los datos del usuario:', error);
               });
-        }
+    }
 
-        function guardarCambios() {
+    function guardarCambios() {
             const id = document.getElementById('idEditar').value;
             const nombre = document.getElementById('nombreEditar').value;
             const apellido = document.getElementById('apellidoEditar').value;
@@ -268,9 +240,9 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
                 alertDiv.textContent = '¡Error al modificar el usuario!';
                 document.getElementById('insertarUsuarioForm').appendChild(alertDiv);
               });
-        }
+    }
 
-        function eliminarUsuario(id) {
+    function eliminarUsuario(id) {
             // Realizar la solicitud a la API para obtener los datos del usuario
 
             const idUsuario_ = document.getElementById('idEliminar').value;
@@ -295,9 +267,9 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
               .catch(error => {
                 console.error('Error al obtener los datos del usuario:', error);
               });
-        }
+    }
 
-        function guardarCambiosEliminar() {
+    function guardarCambiosEliminar() {
 
               // Realizar la solicitud a la API para guardar los cambios
               const url = `http://localhost:3003/usuario/${idUsuario}`;
@@ -343,8 +315,38 @@ const insertarUsuarioForm = document.getElementById('insertarUsuarioForm');
                   alertDiv.textContent = '¡Error al eliminar el usuario!';
                   document.getElementById('insertarUsuarioForm').appendChild(alertDiv);
                 });
-        }
+    }
 
-                   
+    insertarUsuarioForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
+
+            // Obtener los valores del formulario
+
+            let nombre = document.getElementById('nombre').value;
+            let apellido = document.getElementById('apellido').value;
+            let email = document.getElementById('email').value;
+            let contrasena = document.getElementById('contrasena').value;
+            let descripcion = document.getElementById('descripcion').value;
+            let tipoUsuario = document.getElementById('btnTipoUsuario').textContent; // Obtener el texto del botón
+
+            nombre = nombre.toLowerCase();
+            apellido = apellido.toLowerCase();
+            email = email.toLowerCase();
+            descripcion = descripcion.toLowerCase();
+
+        // Crear el objeto de datos para enviar a la API
+            const nuevoUsuario = {
+                nombre_usuario:nombre,
+                apellido_usuario:apellido,
+                email_usuario:email,
+                pass_usuario:contrasena,
+                descripcion_usuario:descripcion,
+                tipoUsuario: tipoUsuario,
+                id_tipo_usuario: idTipoUsuario
+            };
+
+            // Llamar a la función para guardar el usuario en la API
+            guardarUsuario(nuevoUsuario);
+    });           
   document.addEventListener("DOMContentLoaded", loadRoles);
   document.addEventListener('DOMContentLoaded', cargarUsuarios);
